@@ -7,8 +7,7 @@ Condro Wiyono (github.com/condrowiyono)
 Proyek menggabungkan semua yang biasa berada di saku dompet, seperti berbagai macam kartu, boarding pass, e-tiket, kupon, tiket, dll. Terinspirasi dari Apple Wallet.
 
 ## Stack
-GoLang
-MySQL dengan ORM
+GoLang dan MySQL dengan ORM
 
 ## Local
 - Clone the repo
@@ -31,15 +30,15 @@ cp sample.env .env
 - GET /debits
 
 ## Progress
-[x] Arsitektur Dasar
-[-] Go Dep
-SakuDompet
-[x] Kartu Debit
-[-] Kartu Kredit
-[-] OVO
-[-] GOPay
-[-] Dana
-[-] Tiket KAI
-[-] many more to come
+- [x] Arsitektur Dasar
+- [ ] Go Dep
+- SakuDompet
+- [x] Kartu Debit
+- [ ] Kartu Kredit
+- [ ] OVO
+- [ ] GOPay
+- [ ] Dana
+- [ ] Tiket KAI
+- [ ] many more to come
 
 ## Thank You
