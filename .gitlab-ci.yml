@@ -48,6 +48,5 @@ build:
     - docker:dind
   before_script:
     - *inject-gopath
-    - cp -r ${CI_PROJECT_DIR} ${PACKAGE_PATH}
   script:
     - docker build -t app .
