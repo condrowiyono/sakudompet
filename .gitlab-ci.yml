@@ -15,7 +15,7 @@ variables:
 build:
   stage: build
   before_script:
-    - docker login -u gitlab-ci -p $DHUB_ROCKS_PASSWORD $REGISTRY
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
   script:
     - sh build_base.sh gitlab-ci ${DHUB_ROCKS_PASSWORD} ${REGISTRY}
     - docker run --rm -v $PWD/release:/build ${REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}-builder-$(md5sum glide.lock | cut -d' ' -f1)
