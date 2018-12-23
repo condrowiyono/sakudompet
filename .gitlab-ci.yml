@@ -22,7 +22,7 @@ dep:
     - chmod +x /go/bin/dep
     - *inject-gopath
   script:
-    - dep ensure -v
+    - dep ensure -v -vendor-only
   artifacts:
     name: "vendor-$CI_PIPELINE_ID"
     paths:
@@ -46,5 +46,7 @@ build:
   image: docker:17
   services:
     - docker:dind
+  before_script:
+    - *inject-gopath
   script:
     - docker build -t app .
