@@ -1,16 +1,13 @@
-FROM lwolf/golang-glide:0.12.3
+FROM golang:1.10-alpine3.7 as build
 
-ENV APP_PATH=/go/src/github.com/condrowiyono/sakudompet
+WORKDIR /go/src/app
 
-RUN mkdir -p $APP_PATH
-WORKDIR $APP_PATH
+COPY . .
 
-COPY glide.yaml glide.yaml
-COPY glide.lock glide.lock
+RUN go build -o app api/main.go
 
-RUN glide install -v
+FROM alpine:3.7
 
-VOLUME ["/build"]
+COPY --from=build /go/src/app/app /usr/local/bin/app
 
-ADD . $APP_PATH
-CMD GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o /build/app
+ENTRYPOINT ["/usr/local/bin/app"]
