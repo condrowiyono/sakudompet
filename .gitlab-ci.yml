@@ -1,0 +1,24 @@
+# .gitlab-ci.yml
+
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+
+variables:
+  REGISTRY: "docker-registry.example.com"
+  CONTAINER_IMAGE: ${REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
+
+build:
+  stage: build
+  before_script:
+    - docker login -u gitlab-ci -p $DHUB_ROCKS_PASSWORD $REGISTRY
+  script:
+    - sh build_base.sh gitlab-ci ${DHUB_ROCKS_PASSWORD} ${REGISTRY}
+    - docker run --rm -v $PWD/release:/build ${REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}-builder-$(md5sum glide.lock | cut -d' ' -f1)
+    - cd release
+    - docker build -t ${CONTAINER_IMAGE} .
+    - docker push ${CONTAINER_IMAGE}

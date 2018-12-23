@@ -9,6 +9,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/condrowiyono/sakudompet/database"
 	"github.com/condrowiyono/sakudompet/handler"
+	"github.com/condrowiyono/sakudompet/middleware"
 	sd "github.com/condrowiyono/sakudompet"
 )
 
@@ -42,9 +43,22 @@ func main() {
 	router := httprouter.New()
 
 	router.GET("/healthz", sdHandler.Healthz)
-	router.GET("/debits",  sdHandler.FindAllDebits)
+	
+	//DDEBITS
+	router.GET("/debits", middleware.Gateway("",sdHandler.BasicAuth(sdHandler.FindAllDebits)))
+	router.POST("/debits",  middleware.Gateway("",sdHandler.BasicAuth(sdHandler.CreateDebit)))
+	router.GET("/debits/:id",  middleware.Gateway("",sdHandler.BasicAuth(sdHandler.FindDebit)))
+	router.PUT("/debits/:id",  middleware.Gateway("",sdHandler.BasicAuth(sdHandler.PutDebit))) //Entire Resource
+	router.DELETE("/debits/:id",  middleware.Gateway("",sdHandler.BasicAuth(sdHandler.DeleteDebit))) //Delete
+
+	//PASSES
+	router.GET("/passes", middleware.Gateway("",sdHandler.BasicAuth(sdHandler.GetPasses)))
+	router.GET("/passes/:id", middleware.Gateway("",sdHandler.BasicAuth(sdHandler.FindPass)))
+	router.DELETE("/passes/:id",  middleware.Gateway("",sdHandler.BasicAuth(sdHandler.DeletePass))) 
+	
+	// router.GET("/create-pass",  sdHandler.BasicAuth(sdHandler.CreatePass))
+
 
 	http.ListenAndServe(":3000", router)
 	
 }
-
