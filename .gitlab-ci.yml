@@ -22,7 +22,7 @@ dep:
     - chmod +x /go/bin/dep
     - *inject-gopath
   script:
-    - dep ensure -v -vendor-only
+    - dep ensure -v
   artifacts:
     name: "vendor-$CI_PIPELINE_ID"
     paths:
