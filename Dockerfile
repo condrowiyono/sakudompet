@@ -1,13 +1,13 @@
 FROM golang:1.10-alpine3.7 as build
 
-WORKDIR /go/src/app
+WORKDIR /build
 
-COPY . .
+ADD . .
 
 RUN go build -o app api/main.go
 
 FROM alpine:3.7
 
-COPY --from=build /go/src/app/app /usr/local/bin/app
+COPY --from=build /build/app /app
 
-ENTRYPOINT ["/usr/local/bin/app"]
+ENTRYPOINT ["/app"]
